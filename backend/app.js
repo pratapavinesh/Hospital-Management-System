@@ -51,7 +51,7 @@ app.get('/checkIfPatientExists', (req, res) => {
                      a.Address_of_Patient as address
                     FROM Patient_Information_Table a
                     WHERE a.Email_of_Patient = "${email}"`;
-  // console.log(statement);
+  console.log(statement);
   con.query(statement, function (error, results, fields) {
     if (error) throw error;
     else {
@@ -475,7 +475,6 @@ app.get('/OneHistory', (req, res) => {
 app.get('/MedHistView', (req, res) => {
   let params = req.query;
   let patientName = "'%" + params.name + "%'";
-  let secondParamTest = "" + params.variable;
   let statement = `SELECT Name_of_Patient AS 'Name',
                     b.Id_of_Medical_History AS 'ID',
                     a.Email_of_Patient as email
@@ -485,7 +484,7 @@ app.get('/MedHistView', (req, res) => {
                     NATURAL JOIN Diagnose_Information_Table WHERE Email_of_Doctor="${email_in_use}")`;
   if (patientName != "''")
     statement += " AND a.Name_of_Patient LIKE " + patientName
-  // console.log(statement)
+  console.log(statement)
   con.query(statement, function (error, results, fields) {
     if (error) throw error;
     else {
@@ -511,7 +510,7 @@ app.get('/patientViewAppt', (req, res) => {
                   FROM Patient_Attend_Appointments_Information_Table, Appointment_Information_Table
                   WHERE Patient_Attend_Appointments_Information_Table.Email_of_Patient = "${email}" AND
                   Patient_Attend_Appointments_Information_Table.Id_of_Appointment = Appointment_Information_Table.Id_of_Appointment`;
-  // console.log(statement);
+  console.log(statement);
   con.query(statement, function (error, results, fields) {
     if (error) throw error;
     else {
@@ -529,7 +528,7 @@ app.get('/checkIfHistory', (req, res) => {
     let statement = `SELECT Email_of_Patient as email
      FROM Patients_Fill_History_Information_Table
       WHERE Email_of_Patient = ` + email;
-    // console.log(statement)
+    console.log(statement)
     con.query(statement, function (error, results, fields) {
         if (error) throw error;
         else {
@@ -550,7 +549,7 @@ app.get('/addToPatientSeeAppt', (req, res) => {
   let sql_try = `INSERT INTO Patient_Attend_Appointments_Information_Table
                        (Id_of_Appointment,Email_of_Patient, Concerns_of_Patient, Symptoms_of_Patient) 
                      VALUES (${appt_id}, "${email}","${concerns}", "${symptoms}")`;
-  // console.log(sql_try);
+  console.log(sql_try);
   con.query(sql_try, function (error, results, fields) {
     if (error) throw error;
     else{
@@ -588,7 +587,7 @@ app.get('/schedule', (req, res) => {
       let sql_try = `INSERT INTO Diagnose_Information_Table
                 (Id_of_Appointment, Email_of_Doctor, Diagnosis_of_Patient, Prescription_To_Patient) 
                  VALUES (${id}, "${doctor}", "Not Yet Diagnosed" , "Not Yet Diagnosed")`;
-      // console.log(sql_try);
+      console.log(sql_try);
       con.query(sql_try, function (error, results, fields) {
         if (error) throw error;
         else{
@@ -625,7 +624,7 @@ app.get('/diagnose', (req, res) => {
   SET Diagnosis_of_Patient="${diagnosis}",
    Prescription_To_Patient="${prescription}"
     WHERE Id_of_Appointment=${id}`;
-  // console.log(statement)
+  console.log(statement)
   con.query(statement, function (error, results, fields) {
     if (error) throw error;
     else {
@@ -649,7 +648,7 @@ app.get('/showDiagnoses', (req, res) => {
                      d.Prescription_To_Patient as prescription
                 FROM Diagnose_Information_Table d
           WHERE Id_of_Appointment=${id}`;
-  // console.log(statement);
+  console.log(statement);
   con.query(statement, function (error, results, fields) {
     if (error) throw error;
     else {
@@ -674,7 +673,7 @@ app.get('/doctorViewAppt', (req, res) => {
   FROM Appointment_Information_Table a, Patient_Attend_Appointments_Information_Table psa, Patient_Information_Table p
   WHERE a.Id_of_Appointment = psa.Id_of_Appointment AND psa.Email_of_Patient = p.Email_of_Patient
   AND a.Id_of_Appointment IN (SELECT Id_of_Appointment FROM Diagnose_Information_Table WHERE Email_of_Doctor="${email_in_use}")`;
-  //console.log(statement);
+  console.log(statement);
   con.query(statement, function (error, results, fields) {
     if (error) throw error;
     else {
@@ -694,7 +693,7 @@ app.get('/showDiagnoses', (req, res) => {
   d.Prescription_To_Patient as prescription
   FROM Diagnose_Information_Table d
    WHERE Id_of_Appointment=${id}`;
-  //console.log(statement);
+  console.log(statement);
   con.query(statement, function (error, results, fields) {
     if (error) throw error;
     else {
@@ -719,7 +718,7 @@ app.get('/allDiagnoses', (req, res) => {
    INNER JOIN (SELECT * from Patient_Attend_Appointments_Information_Table
      NATURAL JOIN Diagnose_Information_Table 
   WHERE Email_of_Patient=${email}) AS B ON A.Id_of_Appointment = B.Id_of_Appointment;`
-  //console.log(statement);
+  console.log(statement);
   con.query(statement, function (error, results, fields) {
     if (error) throw error;
     else {
@@ -736,7 +735,7 @@ app.get('/deleteAppt', (req, res) => {
   let uid = a.uid;
   let statement = `SELECT Status_of_Appointment as status
    FROM Appointment_Information_Table WHERE Id_of_Appointment=${uid};`;
-  //console.log(statement);
+  console.log(statement);
   con.query(statement, function (error, results, fields) {
     if (error) throw error;
     else {
@@ -751,7 +750,7 @@ app.get('/deleteAppt', (req, res) => {
       else{
         if(who=="pat"){
           statement = `DELETE FROM Patient_Attend_Appointments_Information_Table p WHERE p.Id_of_Appointment = ${uid}`;
-          // console.log(statement);
+          console.log(statement);
           con.query(statement, function (error, results, fields) {
             if (error) throw error;
           });
