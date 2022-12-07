@@ -1,33 +1,4 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var mysql = require('mysql');
-var cors = require('cors');
-var port = 3001
-
-var con = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'avi',
-  database: 'HospitalManagementSystem',
-  multipleStatements: true
-});
-
-con.connect(function (err) {
-  if (err) throw err;
-  console.log("Connected to Hospital Management System Database");
-});
-
-var email_in_use = "";
-var password_in_use = "";
-var who = "";
-var app = express();
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors());
+var {createEroor,express,path,mysql,cors,port,con,email_in_use,password_in_use,who,app} =require('./routs/cretaeconnection');
 
 //Login Page queries
 
